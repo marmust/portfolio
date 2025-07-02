@@ -47,6 +47,58 @@ h1, h2, h3, p {
   width: 100%;
   padding: 1rem 0;
 }
+.skills-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100vw;
+  padding: 1rem 0;
+}
+
+.skills-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  padding: 2rem;
+  width: max-content;
+  min-width: 3000px; /* This ensures long scroll */
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  background-color: #111;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 2px solid #444;
+  box-shadow:
+    0 0 20px #8AAFFF,
+    0 0 40px #00ffff,
+    0 0 60px #ff00ff;
+  min-width: 600px;
+  max-width: 700px;
+  height: 200px;
+  transition: transform 0.2s ease;
+  gap: 2rem;
+}
+
+.skill-icon {
+  font-size: 4rem;
+  color: #8AAFFF;
+  text-shadow: 0 0 20px #8AAFFF;
+  flex-shrink: 0;
+}
+
+.skill-content {
+  color: #eee;
+  font-family: 'Fira Code', monospace;
+}
+
+.skill-content p {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #ccc;
+  text-shadow: 0 0 5px #444;
+}
 
 .skills-scroll {
   display: flex;
