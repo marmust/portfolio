@@ -1,1 +1,94 @@
+:root {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+}
 
+body {
+  margin: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, p {
+  margin: 0.5em 0;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.glow-box {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: #111111;
+  box-shadow: 0 0 10px #8aafff55;
+  margin: 1rem;
+  max-width: 700px;
+  border: 1px solid #444;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+}
+
+.skill {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  border: 1px solid #444;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 10px #555;
+  font-weight: bold;
+  color: #8AAFFF;
+  text-align: center;
+}
+
+.side-nav {
+  position: fixed;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1000;
+}
+
+.nav-button {
+  background: none;
+  color: #ffffff;
+  border: 1px solid #555;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0.4rem;
+  font-family: var(--font-family);
+  box-shadow: 0 0 5px #555;
+  transition: all 0.2s;
+}
+
+.nav-button:hover {
+  background-color: #222;
+  box-shadow: 0 0 10px #8AAFFF;
+  border-color: #8AAFFF;
+}
+
+a {
+  color: #8AAFFF;
+  text-decoration: none;
+  text-shadow: 0 0 5px #8AAFFF;
+}
