@@ -39,6 +39,55 @@ h1, h2, h3, p {
   padding: 2rem;
   min-width: max-content;
 }
+.skills-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.skills-scroll {
+  display: flex;
+  gap: 3rem;
+  padding: 2rem;
+  min-width: max-content;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  min-width: 500px;
+  max-width: 700px;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: #111;
+  border: 2px solid #444;
+  box-shadow:
+    0 0 20px #8AAFFF,
+    0 0 40px #00ffff,
+    0 0 60px #ff00ff;
+  transition: transform 0.2s ease;
+  gap: 1.5rem;
+}
+
+.skill-icon {
+  font-size: 3rem;
+  color: #8AAFFF;
+  text-shadow: 0 0 10px #8AAFFF;
+  flex-shrink: 0;
+}
+
+.skill-content {
+  color: #eee;
+  font-family: 'Fira Code', monospace;
+}
+
+.skill-content p {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #ccc;
+  text-shadow: 0 0 5px #444;
+}
 
 .skill {
   display: flex;
