@@ -122,3 +122,17 @@ a {
     0 0 40px #8AAFFF,
     0 0 60px #00ffff;
 }
+
+.skills-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  padding: 1rem 0;
+}
+
+.skills-scroll {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  min-width: max-content;
+}
