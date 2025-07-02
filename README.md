@@ -9,19 +9,20 @@
       --bg-color: #000000;
       --text-color: #ffffff;
       --glow-color: #8AAFFF;
+      --glow-strength: 0 0 20px, 0 0 40px, 0 0 60px;
     }
 
     body {
       margin: 0;
       background-color: var(--bg-color);
       color: var(--text-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Consolas', 'Courier New', monospace;
       scroll-behavior: smooth;
     }
 
     h1, h2, h3, p {
       color: var(--text-color);
-      text-shadow: 0 0 10px var(--glow-color);
+      text-shadow: var(--glow-strength) var(--glow-color);
     }
 
     .section {
@@ -36,17 +37,18 @@
 
     .glow-box {
       border: 2px solid var(--glow-color);
-      padding: 1rem;
+      padding: 1.5rem;
       border-radius: 1rem;
-      box-shadow: 0 0 20px var(--glow-color);
+      box-shadow: var(--glow-strength) var(--glow-color);
       margin: 1rem;
+      max-width: 700px;
     }
 
     .skills-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
+      gap: 1.2rem;
     }
 
     .skill {
@@ -57,8 +59,8 @@
       align-items: center;
       background-color: #111;
       border: 2px solid var(--glow-color);
-      border-radius: 1rem;
-      box-shadow: 0 0 15px var(--glow-color);
+      border-radius: 0.75rem;
+      box-shadow: var(--glow-strength) var(--glow-color);
       font-weight: bold;
       text-align: center;
     }
@@ -71,29 +73,32 @@
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      z-index: 1000;
     }
 
     .nav-button {
       background: none;
       color: var(--text-color);
       border: 2px solid var(--glow-color);
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       cursor: pointer;
-      border-radius: 0.5rem;
-      box-shadow: 0 0 10px var(--glow-color);
-      text-shadow: 0 0 5px var(--glow-color);
+      border-radius: 0.4rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      box-shadow: var(--glow-strength) var(--glow-color);
+      text-shadow: var(--glow-strength) var(--glow-color);
     }
 
     a {
-      color: #8AAFFF;
+      color: var(--glow-color);
       text-decoration: none;
-      text-shadow: 0 0 5px #8AAFFF;
+      text-shadow: var(--glow-strength) var(--glow-color);
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
+  <!-- Load React and ReactDOM from CDN -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
@@ -101,10 +106,10 @@
     const { useRef } = React;
 
     function App() {
-      const aboutRef = React.useRef(null);
-      const skillsRef = React.useRef(null);
-      const projectsRef = React.useRef(null);
-      const contactRef = React.useRef(null);
+      const aboutRef = useRef(null);
+      const skillsRef = useRef(null);
+      const projectsRef = useRef(null);
+      const contactRef = useRef(null);
 
       const scrollTo = (ref) => ref.current.scrollIntoView({ behavior: 'smooth' });
 
@@ -117,13 +122,13 @@
             React.createElement('button', { className: 'nav-button', onClick: () => scrollTo(contactRef) }, 'Contact')
           ),
           React.createElement('div', { className: 'section', ref: aboutRef },
-            React.createElement('h1', null, '👋 Hello, I\'m 8AAFFF'),
+            React.createElement('h1', null, '8AAFFF'),
             React.createElement('div', { className: 'glow-box' },
-              React.createElement('p', null, 'I build AI systems, game UIs, and low-level networked apps. My portfolio lives at the edge of transformers, Unity, and C++. Let\'s connect!')
+              React.createElement('p', null, 'I develop AI systems, C++ servers, and game clients. My stack includes PyTorch, Unity, ASIO, and transformer-based models. Currently experimenting with LoRA and quantization for tiny hardware.')
             )
           ),
           React.createElement('div', { className: 'section', ref: skillsRef },
-            React.createElement('h2', null, '💡 Skills'),
+            React.createElement('h2', null, 'Skills'),
             React.createElement('div', { className: 'skills-grid' },
               ['React', 'Unity', 'C++', 'Python', 'Transformers', 'ASIO', 'LoRA', 'Quantization'].map(skill =>
                 React.createElement('div', { className: 'skill', key: skill }, skill)
@@ -131,22 +136,22 @@
             )
           ),
           React.createElement('div', { className: 'section', ref: projectsRef },
-            React.createElement('h2', null, '🚀 Projects'),
+            React.createElement('h2', null, 'Projects'),
             React.createElement('div', { className: 'glow-box' },
               React.createElement('h3', null, 'Medical AI Decision Engine'),
-              React.createElement('p', null, 'Built with FLAN-T5 and optimized for Jetson Nano with quantization + LoRA.')
+              React.createElement('p', null, 'Built with FLAN-T5 and optimized for Jetson Nano with <2 GB RAM. Includes LoRA and 8-bit quantization.')
             ),
             React.createElement('div', { className: 'glow-box' },
               React.createElement('h3', null, 'Unity Trivia Game'),
-              React.createElement('p', null, 'Networked quiz game with custom UI Toolkit menus and admin panel.')
+              React.createElement('p', null, 'Client-server game with UI Toolkit (UXML), async TCP, and admin controls.')
             ),
             React.createElement('div', { className: 'glow-box' },
               React.createElement('h3', null, 'C++ ASIO Server'),
-              React.createElement('p', null, 'Low-latency backend with structured packet protocols and socket persistence.')
+              React.createElement('p', null, 'Low-latency TCP server using custom protocol serialization and persistent socket connections.')
             )
           ),
           React.createElement('div', { className: 'section', ref: contactRef },
-            React.createElement('h2', null, '📬 Contact Me'),
+            React.createElement('h2', null, 'Contact'),
             React.createElement('p', null, 'Email: ', React.createElement('a', { href: 'mailto:8aafff@example.com' }, '8aafff@example.com')),
             React.createElement('p', null, 'GitHub: ', React.createElement('a', { href: 'https://github.com/8aafff', target: '_blank' }, 'github.com/8aafff'))
           )
