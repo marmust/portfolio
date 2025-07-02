@@ -92,3 +92,33 @@ a {
   text-decoration: none;
   text-shadow: 0 0 5px #8AAFFF;
 }
+
+/* Make glow stronger and colorful */
+.glow-box, .skill {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 0 15px #8AAFFF,
+    0 0 25px #00ffff,
+    0 0 35px #ff00ff;
+}
+
+.skill p {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: #ccc;
+  text-shadow: 0 0 5px #444;
+}
+
+/* 3D hover tilt */
+.hover-tilt {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.hover-tilt:hover {
+  transform: rotateY(6deg) rotateX(4deg) scale(1.02);
+  box-shadow:
+    0 10px 20px rgba(138, 175, 255, 0.4),
+    0 0 40px #8AAFFF,
+    0 0 60px #00ffff;
+}
