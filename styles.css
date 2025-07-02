@@ -92,6 +92,18 @@ h1, h2, h3, p {
   color: #eee;
   font-family: 'Fira Code', monospace;
 }
+.skills-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100vw;
+  padding: 1rem 0;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.skills-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
 
 .skill-content p {
   margin-top: 0.5rem;
