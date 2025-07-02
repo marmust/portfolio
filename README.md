@@ -39,7 +39,7 @@ export default function Portfolio() {
       {/* Home Section */}
       <section ref={homeRef} className="h-screen flex items-center justify-center">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-          <h1 className="text-5xl font-bold text-[#8AAFFF] glow-text">8AAFFF</h1>
+          <h1 className="text-5xl font-bold text-[#8AAFFF] glow-text analog-fuzz">8AAFFF</h1>
           <p className="mt-2 text-gray-400 text-center">Creative Developer | Black + Glow Vibes</p>
           <ArrowDown className="mt-8 mx-auto animate-bounce text-[#8AAFFF]" />
         </motion.div>
@@ -48,7 +48,7 @@ export default function Portfolio() {
       {/* About Section */}
       <section ref={aboutRef} className="h-screen flex items-center justify-center">
         <div className="max-w-2xl text-center">
-          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text">About Me</h2>
+          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text analog-fuzz">About Me</h2>
           <p className="mt-4 text-gray-300">[Insert your developer origin story here]</p>
         </div>
       </section>
@@ -56,7 +56,7 @@ export default function Portfolio() {
       {/* Projects Section */}
       <section ref={projectsRef} className="h-screen flex items-center justify-center">
         <div className="max-w-4xl">
-          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text text-center">Projects</h2>
+          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text analog-fuzz text-center">Projects</h2>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[1, 2, 3].map((n) => (
               <div key={n} className="bg-[#111] rounded-xl p-4 glow-box border border-[#8AAFFF22]">
@@ -71,7 +71,7 @@ export default function Portfolio() {
       {/* Contact Section */}
       <section ref={contactRef} className="h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text">Contact</h2>
+          <h2 className="text-4xl font-bold text-[#8AAFFF] glow-text analog-fuzz">Contact</h2>
           <p className="mt-4 text-gray-300">[Add your contact links here]</p>
         </div>
       </section>
@@ -91,6 +91,20 @@ export default function Portfolio() {
 
         .glow-text {
           text-shadow: 0 0 5px #8AAFFF, 0 0 10px #8AAFFF, 0 0 20px #8AAFFF;
+        }
+
+        .analog-fuzz {
+          position: relative;
+        }
+
+        .analog-fuzz::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: url('https://media.githubusercontent.com/media/captainpainway/noise-overlay/main/noise.gif') repeat;
+          opacity: 0.03;
+          mix-blend-mode: screen;
+          pointer-events: none;
         }
 
         .glow-box {
