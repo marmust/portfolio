@@ -34,6 +34,20 @@ h1, h2, h3, p {
   width: 100%;
   padding: 1rem 0;
 }
+.skill {
+  position: relative;
+  z-index: 1;
+}
+.skills-scroll {
+  padding: 2rem;
+  min-width: 3000px;
+  margin-inline: auto;
+}
+
+.skill:has(:hover),
+.skill:hover {
+  z-index: 999;
+}
 
 .skills-scroll {
   display: flex;
