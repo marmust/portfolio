@@ -25,7 +25,9 @@ h1, h2, h3, p {
   padding: 2rem;
   box-sizing: border-box;
 }
-
+.skills-scroll {
+  min-width: 2500px; /* Forces more horizontal scroll space */
+}
 .skills-scroll-wrapper {
   overflow-x: auto;
   overflow-y: hidden;
