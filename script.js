@@ -31,6 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+card.addEventListener("mouseenter", () => {
+  card.style.zIndex = "999";
+});
+card.addEventListener("mouseleave", () => {
+  card.style.zIndex = "1";
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".hover-tilt").forEach((card) => {
