@@ -136,3 +136,11 @@ a {
   padding: 1rem;
   min-width: max-content;
 }
+.hover-tilt {
+  will-change: transform;
+  transition: transform 0.1s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transform-origin: center;
+  z-index: 2;
+}
