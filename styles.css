@@ -72,8 +72,11 @@ a {
   padding: 2rem;
   margin: 1rem;
   border-radius: 1rem;
-  border: 2px solid #444;
-  box-shadow: 0 0 20px #8AAFFF, 0 0 40px #00ffff, 0 0 60px #ff00ff;
+  border: 2px solid #8AAFFF;
+  box-shadow:
+    0 0 15px #8AAFFF,
+    0 0 30px #00ffff,
+    0 0 45px #ff00ff;
   transition: transform 0.2s ease;
   position: relative;
   z-index: 1;
