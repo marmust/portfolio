@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="overflow: hidden;">
   <div class="side-nav">
     <button class="nav-button" onclick="scrollToSection('about')">About</button>
     <button class="nav-button" onclick="scrollToSection('skills')">Skills</button>
@@ -18,7 +18,7 @@
   <div id="root">
     <section class="section" id="about">
       <h1>8AAFFF</h1>
-      <div class="glow-box">
+      <div class="card hover-tilt">
         <p>I build tools at the edge of AI, graphics, and systems programming.</p>
         <p>Specialized in transformers, Unity UI Toolkit, and low-level C++ networking.</p>
       </div>
@@ -28,35 +28,35 @@
       <h2>Skills</h2>
       <div class="skills-scroll-wrapper">
         <div class="skills-scroll">
-          <div class="skill hover-tilt">
+          <div class="card hover-tilt">
             <div class="skill-icon">P</div>
             <div class="skill-content">
               <strong>PyTorch</strong>
               <p>Deep learning framework I use for transformer and autoencoder development.</p>
             </div>
           </div>
-          <div class="skill hover-tilt">
+          <div class="card hover-tilt">
             <div class="skill-icon">C</div>
             <div class="skill-content">
               <strong>C/C++</strong>
               <p>Low-level systems programming with an emphasis on performance and network design.</p>
             </div>
           </div>
-          <div class="skill hover-tilt">
+          <div class="card hover-tilt">
             <div class="skill-icon">N</div>
             <div class="skill-content">
               <strong>Networking</strong>
               <p>Socket programming, protocol design, and TCP server backends.</p>
             </div>
           </div>
-          <div class="skill hover-tilt">
+          <div class="card hover-tilt">
             <div class="skill-icon">R</div>
             <div class="skill-content">
               <strong>x86 Reverse Engineering</strong>
               <p>Disassembling, debugging, and analyzing compiled machine code for research and tooling.</p>
             </div>
           </div>
-          <div class="skill hover-tilt">
+          <div class="card hover-tilt">
             <div class="skill-icon">U</div>
             <div class="skill-content">
               <strong>Unity Engine</strong>
@@ -69,15 +69,15 @@
 
     <section class="section" id="projects">
       <h2>Projects</h2>
-      <div class="glow-box hover-tilt">
+      <div class="card hover-tilt">
         <h3>Medical AI Decision Engine</h3>
         <p>FLAN-T5 fine-tuned for clinical vignettes. Runs on Jetson Nano with 8-bit LoRA quantization.</p>
       </div>
-      <div class="glow-box hover-tilt">
+      <div class="card hover-tilt">
         <h3>Unity Trivia Game</h3>
         <p>Client-server architecture with Unity UI Toolkit (UXML). Features persistent TCP and admin tools.</p>
       </div>
-      <div class="glow-box hover-tilt">
+      <div class="card hover-tilt">
         <h3>C++ ASIO Server</h3>
         <p>Structured TCP backend using custom protocol serialization and non-blocking sockets.</p>
       </div>
