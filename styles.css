@@ -1,6 +1,7 @@
 :root {
   --bg-color: #000000;
   --text-color: #ffffff;
+  --glow-color: #8AAFFF;
   --font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
 }
 
@@ -9,11 +10,18 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font-family);
-  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
-h1, h2, h3, p {
-  margin: 0.5em 0;
+h1, h2, h3, p, a {
+  color: var(--text-color);
+  text-shadow: 0 0 10px var(--glow-color);
+}
+
+a {
+  color: var(--glow-color);
+  text-decoration: none;
 }
 
 .section {
@@ -22,220 +30,9 @@ h1, h2, h3, p {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding-inline: 2rem;
   box-sizing: border-box;
-}
-.skills-scroll {
-  min-width: 2500px; /* Forces more horizontal scroll space */
-}
-.skills-scroll-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100%;
-  padding: 1rem 0;
-}
-.skill {
-  position: relative;
-  z-index: 1;
-}
-.skills-scroll {
-  padding: 2rem;
-  min-width: 3000px;
-  margin-inline: auto;
-}
-
-.skill:has(:hover),
-.skill:hover {
-  z-index: 999;
-}
-
-.skills-scroll {
-  display: flex;
-  gap: 3rem;
-  padding: 2rem;
-  min-width: max-content;
-}
-.skills-scroll-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100%;
-  padding: 1rem 0;
-}
-.skills-scroll-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100vw;
-  padding: 1rem 0;
-}
-
-.skills-scroll {
-  display: flex;
-  flex-direction: row;
-  gap: 4rem;
-  padding: 2rem;
-  width: max-content;
-  min-width: 3000px; /* This ensures long scroll */
-}
-
-.skill {
-  display: flex;
-  align-items: center;
-  background-color: #111;
-  padding: 2rem;
-  border-radius: 1rem;
-  border: 2px solid #444;
-  box-shadow:
-    0 0 20px #8AAFFF,
-    0 0 40px #00ffff,
-    0 0 60px #ff00ff;
-  min-width: 600px;
-  max-width: 700px;
-  height: 200px;
-  transition: transform 0.2s ease;
-  gap: 2rem;
-}
-
-.skill-icon {
-  font-size: 4rem;
-  color: #8AAFFF;
-  text-shadow: 0 0 20px #8AAFFF;
-  flex-shrink: 0;
-}
-
-.skill-content {
-  color: #eee;
-  font-family: 'Fira Code', monospace;
-}
-.skills-scroll-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  width: 100vw;
-  padding: 1rem 0;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-.skills-scroll-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.skill-content p {
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
-  color: #ccc;
-  text-shadow: 0 0 5px #444;
-}
-
-.skills-scroll {
-  display: flex;
-  gap: 3rem;
-  padding: 2rem;
-  min-width: max-content;
-}
-
-.skill {
-  display: flex;
-  align-items: center;
-  min-width: 500px;
-  max-width: 700px;
-  padding: 2rem;
-  border-radius: 1rem;
-  background-color: #111;
-  border: 2px solid #444;
-  box-shadow:
-    0 0 20px #8AAFFF,
-    0 0 40px #00ffff,
-    0 0 60px #ff00ff;
-  transition: transform 0.2s ease;
-  gap: 1.5rem;
-}
-
-.skill-icon {
-  font-size: 3rem;
-  color: #8AAFFF;
-  text-shadow: 0 0 10px #8AAFFF;
-  flex-shrink: 0;
-}
-
-.skill-content {
-  color: #eee;
-  font-family: 'Fira Code', monospace;
-}
-
-.skill-content p {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #ccc;
-  text-shadow: 0 0 5px #444;
-}
-
-.skill {
-  display: flex;
-  align-items: center;
-  min-width: 500px;
-  max-width: 700px;
-  padding: 2rem;
-  border-radius: 1rem;
-  background-color: #111;
-  border: 2px solid #444;
-  box-shadow:
-    0 0 20px #8AAFFF,
-    0 0 40px #00ffff,
-    0 0 60px #ff00ff;
-  transition: transform 0.2s ease;
-  gap: 1.5rem;
-}
-
-.skill-icon {
-  font-size: 3rem;
-  color: #8AAFFF;
-  text-shadow: 0 0 10px #8AAFFF;
-  flex-shrink: 0;
-}
-
-.skill-content {
-  color: #eee;
-  font-family: 'Fira Code', monospace;
-}
-
-.skill-content p {
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-  color: #ccc;
-  text-shadow: 0 0 5px #444;
-}
-
-
-.glow-box {
-  padding: 1.5rem;
-  border-radius: 1rem;
-  background: #111111;
-  box-shadow: 0 0 10px #8aafff55;
-  margin: 1rem;
-  max-width: 700px;
-  border: 1px solid #444;
-}
-
-.skills-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.2rem;
-}
-
-.skill {
-  width: 120px;
-  height: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #111;
-  border: 1px solid #444;
-  border-radius: 0.75rem;
-  box-shadow: 0 0 10px #555;
-  font-weight: bold;
-  color: #8AAFFF;
-  text-align: center;
+  overflow: visible;
 }
 
 .side-nav {
@@ -251,76 +48,86 @@ h1, h2, h3, p {
 
 .nav-button {
   background: none;
-  color: #ffffff;
+  color: var(--text-color);
   border: 1px solid #555;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
   border-radius: 0.4rem;
   font-family: var(--font-family);
-  box-shadow: 0 0 5px #555;
-  transition: all 0.2s;
+  box-shadow: 0 0 10px var(--glow-color);
+  transition: all 0.2s ease;
 }
 
 .nav-button:hover {
   background-color: #222;
-  box-shadow: 0 0 10px #8AAFFF;
-  border-color: #8AAFFF;
+  border-color: var(--glow-color);
+  box-shadow: 0 0 20px var(--glow-color);
 }
 
-a {
-  color: #8AAFFF;
-  text-decoration: none;
-  text-shadow: 0 0 5px #8AAFFF;
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #111;
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: 2px solid #444;
+  box-shadow: 0 0 20px #8AAFFF, 0 0 40px #00ffff, 0 0 60px #ff00ff;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  max-width: 700px;
 }
 
-/* Make glow stronger and colorful */
-.glow-box, .skill {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow:
-    0 0 15px #8AAFFF,
-    0 0 25px #00ffff,
-    0 0 35px #ff00ff;
-}
-
-.skill p {
-  font-size: 0.8rem;
-  margin-top: 0.5rem;
-  color: #ccc;
-  text-shadow: 0 0 5px #444;
-}
-
-/* 3D hover tilt */
-.hover-tilt {
-  perspective: 800px;
-  transform-style: preserve-3d;
-}
-
-.hover-tilt:hover {
-  transform: rotateY(6deg) rotateX(4deg) scale(1.02);
-  box-shadow:
-    0 10px 20px rgba(138, 175, 255, 0.4),
-    0 0 40px #8AAFFF,
-    0 0 60px #00ffff;
+.card:has(:hover),
+.card:hover {
+  z-index: 999;
 }
 
 .skills-scroll-wrapper {
   overflow-x: auto;
   overflow-y: hidden;
-  width: 100%;
-  padding: 1rem 0;
+  width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding-block: 2rem;
+}
+
+.skills-scroll-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .skills-scroll {
   display: flex;
-  gap: 2rem;
-  padding: 1rem;
-  min-width: max-content;
+  gap: 4rem;
+  padding: 2rem;
+  width: max-content;
+  min-width: 3000px;
 }
+
+.skill-icon {
+  font-size: 4rem;
+  color: var(--glow-color);
+  text-shadow: 0 0 20px var(--glow-color);
+  flex-shrink: 0;
+  margin-right: 2rem;
+}
+
+.skill-content p {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #ccc;
+  text-shadow: 0 0 5px #444;
+}
+
 .hover-tilt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transform-style: preserve-3d;
   will-change: transform;
   transition: transform 0.1s ease;
-  transform-style: preserve-3d;
   perspective: 1000px;
-  transform-origin: center;
-  z-index: 2;
 }
