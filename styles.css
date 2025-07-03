@@ -134,3 +134,11 @@ a {
   transition: transform 0.1s ease;
   perspective: 1000px;
 }
+
+html, body {
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
