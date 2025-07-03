@@ -1,97 +1,835 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>8AAFFF | Portfolio</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Neon Portfolio</title>
+    <!-- Updated Google Fonts for OCRA Extended alternative (Space Mono) and Consolas alternative (JetBrains Mono) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define neon colors based on VSCode theme screenshot, adjusted to "full neon" */
+        :root {
+            --background-color: #000000;
+            --text-color: #ffffff;
+            --comment-color: #A0B0FF; /* Adjusted to ensure B channel touches 255 */
+            --keyword-color: #eb91ff; /* Already has B channel at 255 */
+            --string-color: #00FF99; /* Adjusted to ensure G channel touches 255 */
+            --function-color: #f1ff77; /* Already has G channel at 255 */
+            --number-color: #ff985e; /* Already has R channel at 255 */
+            --variable-color: #00eaff; /* Already has B channel at 255 */
+            --class-color: #ff4abe; /* Already has R channel at 255 */
+            --highlight-color: rgba(0, 255, 255, 0.1); /* General highlight/glow base */
+
+            --nav-height: 70px; /* Approximate height of your fixed navigation */
+        }
+
+        html {
+            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            perspective: 1000px; /* Establishes a 3D perspective for child elements */
+            overflow-y: scroll; /* Ensure scrollbar is always present */
+            overflow-x: hidden;
+            scroll-padding-top: var(--nav-height); /* Offset for fixed navigation */
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace; /* Consolas alternative for smaller text */
+            background-color: var(--background-color); /* Ensures true black */
+            color: var(--string-color); /* Primary text color, tinted green for neon feel */
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Hide body overflow, html handles scroll */
+            position: relative;
+        }
+
+        /* Canvas for background particles */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Behind all content */
+            opacity: 0.7; /* Slightly transparent */
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10; /* Above particles */
+        }
+
+        /* Fixed Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height); /* Set height explicitly */
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black */
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5); /* Neon glow for nav */
+            z-index: 1000; /* Always on top */
+            border-bottom: 1px solid var(--variable-color);
+            display: flex; /* For vertical centering of links */
+            align-items: center; /* For vertical centering of links */
+            justify-content: center; /* For horizontal centering of links */
+        }
+
+        nav a {
+            font-family: 'Space Mono', monospace;
+            color: var(--variable-color);
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.1em;
+            text-shadow: 0 0 5px var(--variable-color);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--keyword-color);
+            text-shadow: 0 0 10px var(--keyword-color), 0 0 20px var(--keyword-color);
+        }
+
+        header {
+            text-align: center;
+            padding-top: var(--nav-height); /* More padding for fixed nav */
+            padding-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh; /* Ensure header takes full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d; /* Enable 3D transforms for header content */
+            /* Initial transform for header, same as sections */
+            transform: rotateX(90deg) translateZ(500px) scale(0.8);
+            opacity: 0;
+            /* Significantly faster transition for dynamic effect */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform-origin: center center;
+            backface-visibility: hidden;
+        }
+
+        /* Glitch effect for main title - now using Space Mono */
+        .glitch-text {
+            font-family: 'Space Mono', monospace; /* OCRA Extended alternative */
+            font-size: 4em; /* Slightly larger for more impact with new font */
+            color: var(--variable-color); /* Light blue for main title */
+            text-shadow: 0 0 10px var(--variable-color), 0 0 20px var(--variable-color), 0 0 30px var(--variable-color);
+            animation: glitch-burst 8s infinite linear; /* Sharper, stronger, quicker, longer pauses */
+            display: inline-block;
+            position: relative;
+            -webkit-text-stroke: 1px var(--string-color); /* Green outline */
+        }
+
+        /* Keyframes for the main title glitch effect - sharper, stronger, quicker, longer pauses */
+        @keyframes glitch-burst {
+            0%, 100% {
+                text-shadow: 0 0 10px var(--variable-color), 0 0 20px var(--variable-color), 0 0 30px var(--variable-color);
+                transform: translate(0);
+            }
+            /* Quick, strong bursts */
+            0.5% {
+                text-shadow: 6px 6px 0 var(--keyword-color), -6px -6px 0 var(--variable-color); /* Increased offset for stronger */
+                transform: translate(-6px, 6px);
+            }
+            1% {
+                text-shadow: -6px 6px 0 var(--variable-color), 6px -6px 0 var(--keyword-color);
+                transform: translate(6px, -6px);
+            }
+            1.5% {
+                text-shadow: 5px -5px 0 var(--keyword-color), -5px 5px 0 var(--variable-color);
+                transform: translate(-5px, 5px);
+            }
+            2% {
+                text-shadow: -5px -5px 0 var(--variable-color), 5px 5px 0 var(--keyword-color);
+                transform: translate(5px, -5px);
+            }
+            2.5% {
+                text-shadow: 0 0 10px var(--variable-color), 0 0 20px var(--variable-color), 0 0 30px var(--variable-color);
+                transform: translate(0);
+            }
+            /* Long pause */
+            90% {
+                text-shadow: 0 0 10px var(--variable-color), 0 0 20px var(--variable-color), 0 0 30px var(--variable-color);
+                transform: translate(0);
+            }
+            /* Another quick burst before loop */
+            90.5% {
+                text-shadow: 6px 6px 0 var(--keyword-color), -6px -6px 0 var(--variable-color);
+                transform: translate(-6px, 6px);
+            }
+            91% {
+                text-shadow: -6px 6px 0 var(--variable-color), 6px -6px 0 var(--keyword-color);
+                transform: translate(6px, -6px);
+            }
+            91.5% {
+                text-shadow: 5px -5px 0 var(--keyword-color), -5px 5px 0 var(--variable-color);
+                transform: translate(-5px, 5px);
+            }
+            92% {
+                text-shadow: -5px -5px 0 var(--variable-color), 5px 5px 0 var(--keyword-color);
+                transform: translate(5px, -5px);
+            }
+        }
+
+        h2 {
+            font-family: 'Space Mono', monospace; /* OCRA Extended alternative */
+            font-size: 2.5em; /* Adjusted for new font */
+            color: var(--keyword-color); /* Purple/Magenta heading color */
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px var(--keyword-color), 0 0 15px var(--keyword-color);
+            position: relative;
+            padding: 5px; /* Added padding to fix glitch cropping */
+        }
+
+        /* Underline effect for headings with flicker */
+        h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--keyword-color), transparent);
+            margin: 10px auto 0;
+            box-shadow: 0 0 5px var(--keyword-color);
+            animation: flicker 0.8s infinite alternate; /* Slightly faster flicker */
+        }
+
+        /* Keyframes for the flicker effect */
+        @keyframes flicker {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.3; }
+        }
+
+        section {
+            padding: 40px 0 80px; /* Increased padding-bottom for card accessibility */
+            min-height: 100vh; /* Ensure sections take full viewport height for distinct "pages" */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* For z-index stacking with cards */
+            z-index: 5; /* Below container z-index but above particles */
+
+            /* Initial state for sections (far away, rotated) */
+            transform: rotateX(90deg) translateZ(500px) scale(0.8);
+            opacity: 0;
+            /* Significantly faster transition for dynamic effect */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform-origin: center center;
+            backface-visibility: hidden;
+            transform-style: preserve-3d; /* Keep preserve-3d here for section's own overall 3D effect */
+        }
+
+        /* A specific style for the projects title section, if needed, to control its height/padding */
+        .projects-title-only {
+            min-height: 50vh; /* Make this section shorter, as projects are separate */
+            padding-bottom: 20px; /* Adjust padding */
+        }
+
+        .about-me p {
+            line-height: 1.6;
+            font-size: 1.1em;
+            color: var(--text-color); /* Pure white for readability */
+            text-shadow: 0 0 3px var(--string-color); /* Subtle green glow for body text */
+            max-width: 700px; /* Constrain text width */
+            text-align: center;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 900px; /* Max width for skill card containers */
+            margin-top: 20px;
+        }
+
+        /* New wrapper for individual project cards */
+        .projects-individual-cards-wrapper {
+            display: flex;
+            flex-direction: column; /* Stack projects vertically */
+            gap: 40px; /* More vertical space between project cards */
+            max-width: 960px; /* Ensure it can expand to container's width */
+            width: 100%; /* Ensure it takes full available width */
+            margin-top: 20px;
+            padding-bottom: 80px; /* Ensure space below last project */
+            position: relative; /* Establish stacking context */
+            z-index: 6; /* Ensure it's above other sections */
+        }
+
+
+        /* Base styles for skill and project cards */
+        .skill {
+            background-color: #111; /* Darker background for cards */
+            border: 1px solid var(--variable-color); /* Light blue border for cards */
+            padding: 20px;
+            text-align: center;
+            width: 200px; /* Base width for calculation */
+            box-shadow: 0 0 10px var(--variable-color); /* Initial light blue glow */
+            transition: transform 0.15s ease-out, box-shadow 0.15s ease-out; /* Much faster transitions */
+            transform-style: preserve-3d; /* Enable 3D transforms for tilt */
+            position: relative; /* Needed for z-index */
+            z-index: 1; /* Default z-index */
+        }
+
+        /* Project card specific styles for checkerboard layout */
+        .project {
+            background-color: #111;
+            border: 1px solid var(--variable-color);
+            padding: 15px; /* Slightly less padding for compact landscape */
+            box-shadow: 0 0 10px var(--variable-color);
+            /* Individual project card transition for its own tilt */
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out, box-shadow 0.15s ease-out;
+            transform-style: preserve-3d; /* Enable 3D transforms for its own internal hover effect */
+            position: relative;
+            z-index: 1;
+            display: flex; /* Use flexbox for internal layout */
+            align-items: center; /* Vertically align image and text content */
+            width: 450px; /* Wider for landscape orientation */
+            height: 150px; /* Fixed height for consistency */
+            overflow: hidden; /* Hide overflowing text if any */
+            align-self: flex-start; /* Default: stick to the left */
+
+            /* Removed initial transform and opacity from CSS. JS will handle it. */
+        }
+
+        .project img {
+            width: 120px; /* Fixed width for project images */
+            height: 120px; /* Fixed height for project images */
+            object-fit: cover; /* Ensure image covers the area */
+            margin-right: 20px; /* Space between image and text content for default (left-aligned) projects */
+            border: 1px solid var(--string-color);
+            box-shadow: 0 0 8px var(--string-color);
+            flex-shrink: 0; /* Prevent image from shrinking */
+        }
+
+        .project-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left; /* Align text content to the left */
+            flex-grow: 1; /* Allow content to take available space */
+            overflow: hidden; /* Hide overflowing text */
+        }
+
+        .project-content h3 {
+            margin-top: 0; /* Remove default top margin */
+            margin-bottom: 5px; /* Small space below title */
+            font-size: 1.2em; /* Adjust title size */
+            color: var(--function-color); /* Use function color for project titles */
+            text-shadow: 0 0 5px var(--function-color);
+            white-space: nowrap; /* Prevent title from wrapping */
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Add ellipsis for overflow */
+        }
+
+        .project-content p {
+            font-size: 0.9em; /* Smaller font for description */
+            line-height: 1.4;
+            color: var(--text-color); /* Use general text color */
+            text-shadow: none; /* Remove glow for description */
+            overflow: hidden; /* Hide overflow */
+            display: -webkit-box;
+            -webkit-line-clamp: 3; /* Limit description to 3 lines */
+            -webkit-box-orient: vertical;
+        }
+
+        /* Checkerboard pattern for projects (alternating alignment) */
+        .projects-individual-cards-wrapper .project:nth-child(even) {
+            align-self: flex-end; /* Push even projects to the right */
+            flex-direction: row-reverse; /* Image on the right for even projects */
+        }
+
+        .projects-individual-cards-wrapper .project:nth-child(even) img {
+            margin-right: 0; /* Remove right margin */
+            margin-left: 20px; /* Add left margin to separate image from text */
+        }
+
+        /* Hover effects for skill and project cards */
+        .skill:hover, .project:hover {
+            /* Increased expansion */
+            transform: scale(1.08); /* Slightly less aggressive scale for landscape cards */
+            /* Bigger and more tapered glow with multiple layers */
+            box-shadow:
+                0 0 45px var(--variable-color), /* Inner light blue glow */
+                0 0 90px var(--keyword-color), /* Mid purple purple glow */
+                0 0 180px var(--string-color), /* Outer green glow */
+                0 0 350px var(--highlight-color); /* Wider, more impactful tapering glow */
+            z-index: 999; /* Bring to front on hover */
+        }
+
+        .contact-info {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-info p {
+            color: var(--text-color); /* Pure white for readability */
+        }
+
+        .contact-info a {
+            color: var(--variable-color); /* Light blue link color */
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px var(--variable-color); /* Glow for links */
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--keyword-color); /* Purple/Magenta link hover color */
+            text-shadow: 0 0 10px var(--keyword-color), 0 0 20px var(--keyword-color); /* Bigger glow on hover */
+        }
+
+        /* Glitch effect for section headings (data-text is used for content) */
+        .glitch {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-color); /* Match background to hide original text */
+            clip: rect(0, 900px, 0, 0); /* Initial clip, will be animated */
+            animation: glitch-clip-burst 10s infinite linear; /* Sharper, stronger, quicker, longer pauses */
+        }
+
+        .glitch::before {
+            left: -3px; /* Increased offset for stronger glitch */
+            text-shadow: -3px 0 var(--keyword-color); /* Glitch color 1 */
+        }
+
+        .glitch::after {
+            left: 3px; /* Increased offset for stronger glitch */
+            text-shadow: 3px 0 var(--variable-color); /* Glitch color 2 */
+        }
+
+        /* Keyframes for the section heading glitch effect - sharper, stronger, quicker, longer pauses */
+        @keyframes glitch-clip-burst {
+            0%, 100% {
+                clip: rect(0, 9999px, 9999px, 0); /* Static state */
+            }
+            /* Quick, strong bursts */
+            0.5% { clip: rect(40px, 9999px, 50px, 0); }
+            1% { clip: rect(80px, 9999px, 90px, 0); }
+            1.5% { clip: rect(10px, 9999px, 20px, 0); }
+            2% { clip: rect(70px, 9999px, 80px, 0); }
+            2.5% { clip: rect(0, 9999px, 9999px, 0); } /* Back to normal */
+
+            /* Long pause */
+            90% { clip: rect(0, 9999px, 9999px, 0); }
+
+            /* Another quick burst before loop */
+            90.5% { clip: rect(40px, 9999px, 50px, 0); }
+            91% { clip: rect(80px, 9999px, 90px, 0); }
+            91.5% { clip: rect(10px, 9999px, 20px, 0); }
+            92% { clip: rect(70px, 9999px, 80px, 0); }
+        }
+    </style>
 </head>
 <body>
-  <div class="side-nav">
-    <button class="nav-button" onclick="scrollToSection('about')">About</button>
-    <button class="nav-button" onclick="scrollToSection('skills')">Skills</button>
-    <button class="nav-button" onclick="scrollToSection('projects')">Projects</button>
-    <button class="nav-button" onclick="scrollToSection('contact')">Contact</button>
-  </div>
+    <!-- Canvas for the particle background -->
+    <canvas id="particle-canvas"></canvas>
 
-  <div id="root">
-    <section class="section" id="about">
-      <h1>8AAFFF</h1>
-      <div class="card hover-tilt">
-        <p>I build tools at the edge of AI, graphics, and systems programming.</p>
-        <p>Specialized in transformers, Unity UI Toolkit, and low-level C++ networking.</p>
-      </div>
-    </section>
+    <!-- Fixed Navigation Bar -->
+    <nav>
+        <a href="#home">HOME</a>
+        <a href="#about">ABOUT ME</a>
+        <a href="#skills">SKILLS</a>
+        <a href="#projects">PROJECTS</a>
+        <a href="#contact">CONTACT</a>
+    </nav>
 
-    <section class="section" id="skills">
-      <h2>Skills</h2>
-      <div class="skills-scroll-wrapper">
-        <div class="skills-scroll">
-          <div class="card hover-tilt">
-            <div class="skill-icon">P</div>
-            <div class="skill-content">
-              <strong>PyTorch</strong>
-              <p>Deep learning framework I use for transformer and autoencoder development.</p>
+    <div class="container">
+        <header id="home">
+            <h1 class="glitch-text" data-text="[YOUR NAME]">YOUR NAME</h1>
+        </header>
+
+        <section id="about" class="about-me">
+            <h2 class="glitch" data-text="ABOUT ME">ABOUT ME</h2>
+            <p>Greetings, digital traveler. I am a [Your Profession/Role] with a passion for [Your Interests/Area of Expertise]. My journey through the circuits of technology has equipped me with the ability to [mention a key skill or achievement]. I thrive on challenges and believe in crafting solutions that are not just functional, but also aesthetically captivating, much like the neon glow of a city at night.</p>
+            <p>In this digital realm, I aim to merge the precision of code with the artistry of design, creating experiences that resonate. Explore my work and connect if you're looking for a pixel-perfect collaborator.</p>
+        </section>
+
+        <section id="skills" class="skills">
+            <h2 class="glitch" data-text="SKILLS">SKILLS</h2>
+            <div class="skills-container">
+                <div class="skill">
+                    <h3>Cybernetics (HTML/CSS)</h3>
+                    <p>Proficient in structuring digital landscapes and styling them with precision and flair.</p>
+                </div>
+                 <div class="skill">
+                    <h3>Logic Gates (JavaScript)</h3>
+                    <p>Building interactive experiences and dynamic functionalities with robust scripting.</p>
+                </div>
+                <div class="skill">
+                    <h3>Data Streams (Databases)</h3>
+                    <p>Designing and managing efficient data storage and retrieval systems.</p>
+                </div>
+                <div class="skill">
+                    <h3>Neural Networks (AI/ML)</h3>
+                    <p>Exploring the frontiers of artificial intelligence and machine learning applications.</p>
+                </div>
+                <div class="skill">
+                    <h3>System Architecture</h3>
+                    <p>Crafting scalable and resilient software architectures for complex systems.</p>
+                </div>
             </div>
-          </div>
-          <div class="card hover-tilt">
-            <div class="skill-icon">C</div>
-            <div class="skill-content">
-              <strong>C/C++</strong>
-              <p>Low-level systems programming with an emphasis on performance and network design.</p>
+        </section>
+
+        <!-- The projects section now only contains the title -->
+        <section id="projects-title-section" class="projects-title-only">
+            <h2 class="glitch" data-text="PROJECTS">PROJECTS</h2>
+        </section>
+
+        <!-- Project cards moved outside their previous section, but still in container -->
+        <div class="projects-individual-cards-wrapper">
+            <div class="project" id="project-a">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%2300eaff'>A</text></svg>" alt="Project A">
+                <div class="project-content">
+                    <h3>Project A: Quantum Leap</h3>
+                    <p>A web application simulating quantum entanglement for secure communication. This description is a bit longer to test the line clamping.</p>
+                </div>
             </div>
-          </div>
-          <div class="card hover-tilt">
-            <div class="skill-icon">N</div>
-            <div class="skill-content">
-              <strong>Networking</strong>
-              <p>Socket programming, protocol design, and TCP server backends.</p>
+            <div class="project" id="project-b">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23eb91ff'>B</text></svg>" alt="Project B">
+                <div class="project-content">
+                    <h3>Project B: Echo Chamber</h3>
+                    <p>An interactive sound visualizer that reacts to user input with neon waveforms. Experience the rhythm!</p>
+                </div>
             </div>
-          </div>
-          <div class="card hover-tilt">
-            <div class="skill-icon">R</div>
-            <div class="skill-content">
-              <strong>x86 Reverse Engineering</strong>
-              <p>Disassembling, debugging, and analyzing compiled machine code for research and tooling.</p>
+            <div class="project" id="project-c">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%232bf7a5'>C</text></svg>" alt="Project C">
+                <div class="project-content">
+                    <h3>Project C: Pixel Forge</h3>
+                    <p>A retro-style game engine built from scratch, featuring pixel art rendering and classic gameplay.</p>
+                </div>
             </div>
-          </div>
-          <div class="card hover-tilt">
-            <div class="skill-icon">U</div>
-            <div class="skill-content">
-              <strong>Unity Engine</strong>
-              <p>Client-side interaction, UI Toolkit menus, and TCP communication in Unity.</p>
+            <div class="project" id="project-d">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23f1ff77'>D</text></svg>" alt="Project D">
+                <div class="project-content">
+                    <h3>Project D: Data Nexus</h3>
+                    <p>A visualization tool for complex datasets, presenting information in a cyberpunk aesthetic. Dive into data!</p>
+                </div>
             </div>
-          </div>
+            <div class="project" id="project-e">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23ff4abe'>E</text></svg>" alt="Project E">
+                <div class="project-content">
+                    <h3>Project E: Cybernetic Hand</h3>
+                    <p>A 3D model and simulation of a robotic hand, controlled by neural signals.</p>
+                </div>
+            </div>
+            <div class="project" id="project-f">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23A0B0FF'>F</text></svg>" alt="Project F">
+                <div class="project-content">
+                    <h3>Project F: Glitch Art Generator</h3>
+                    <p>A web-based tool that applies various glitch effects to uploaded images.</p>
+                </div>
+            </div>
+            <div class="project" id="project-g">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%2300FF99'>G</text></svg>" alt="Project G">
+                <div class="project-content">
+                    <h3>Project G: Neon City Builder</h3>
+                    <p>An interactive 2D city builder game with a strong neon aesthetic and synthwave soundtrack.</p>
+                </div>
+            </div>
+            <div class="project" id="project-h">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23ff985e'>H</text></svg>" alt="Project H">
+                <div class="project-content">
+                    <h3>Project H: Retro Arcade Emulator</h3>
+                    <p>A browser-based emulator for classic arcade games, complete with pixel-perfect rendering.</p>
+                </div>
+            </div>
+            <div class="project" id="project-i">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%23eb91ff'>I</text></svg>" alt="Project I">
+                <div class="project-content">
+                    <h3>Project I: Virtual Reality Interface</h3>
+                    <p>A prototype VR interface for data visualization, designed for immersive interaction.</p>
+                </div>
+            </div>
+            <div class="project" id="project-j">
+                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Space Mono' font-size='100' fill='%2300eaff'>J</text></svg>" alt="Project J">
+                <div class="project-content">
+                    <h3>Project J: AI-Powered Chatbot</h3>
+                    <p>A conversational AI chatbot designed for customer support with natural language understanding.</p>
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
 
-    <section class="section" id="projects">
-      <h2>Projects</h2>
-      <div class="card hover-tilt">
-        <h3>Medical AI Decision Engine</h3>
-        <p>FLAN-T5 fine-tuned for clinical vignettes. Runs on Jetson Nano with 8-bit LoRA quantization.</p>
-      </div>
-      <div class="card hover-tilt">
-        <h3>Unity Trivia Game</h3>
-        <p>Client-server architecture with Unity UI Toolkit (UXML). Features persistent TCP and admin tools.</p>
-      </div>
-      <div class="card hover-tilt">
-        <h3>C++ ASIO Server</h3>
-        <p>Structured TCP backend using custom protocol serialization and non-blocking sockets.</p>
-      </div>
-    </section>
+        <section id="contact" class="contact-info">
+            <h2 class="glitch" data-text="CONTACT">CONTACT</h2>
+            <p>Ready to collaborate or just want to chat about the future of tech?</p>
+            <a href="mailto:your.email@example.com">Email</a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+            <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+            <p style="margin-top: 20px; font-size: 0.9em; text-shadow: none; color: var(--comment-color);">
+                &copy; 2025 [Your Name]. All rights reserved.
+            </p>
+        </section>
+    </div>
 
-    <section class="section" id="contact">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:8aafff@example.com">8aafff@example.com</a></p>
-      <p>GitHub: <a href="https://github.com/8aafff" target="_blank">github.com/8aafff</a></p>
-    </section>
-  </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select all elements that will have hover effects (skills and projects)
+            const hoverCards = document.querySelectorAll('.skill, .project');
+            // Select all elements that will be animated by scroll effect (sections, header, and individual projects)
+            const scrollAnimatedElements = document.querySelectorAll('section, header, .project');
+            // Select only the main sections for navigation link highlighting
+            const sectionsForNav = document.querySelectorAll('section, header');
+            const navLinks = document.querySelectorAll('nav a');
+            const particleCanvas = document.getElementById('particle-canvas');
+            const ctx = particleCanvas.getContext('2d');
+            const nav = document.querySelector('nav'); // Get nav element for height calculation
 
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="script.js"></script>
+            let particles = [];
+            const numParticles = 100;
+            const particleSpeed = 0.5;
+            const particleSize = 1.5;
+            const particleColor = 'rgba(0, 255, 255, 0.8)'; // Cyan for particles
+
+            // --- Particle System ---
+            function resizeCanvas() {
+                particleCanvas.width = window.innerWidth;
+                particleCanvas.height = window.innerHeight;
+                initParticles(); // Re-initialize particles on resize
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * particleCanvas.width;
+                    this.y = Math.random() * particleCanvas.height;
+                    this.size = Math.random() * particleSize + 0.5;
+                    this.speedX = (Math.random() - 0.5) * particleSpeed;
+                    this.speedY = (Math.random() - 0.5) * particleSpeed;
+                }
+
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    // Wrap particles around the screen
+                    if (this.x < 0) this.x = particleCanvas.width;
+                    if (this.x > particleCanvas.width) this.x = 0;
+                    if (this.y < 0) this.y = particleCanvas.height;
+                    if (this.y > particleCanvas.height) this.y = 0;
+                }
+
+                draw() {
+                    ctx.fillStyle = particleColor;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animateParticles() {
+                ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animateParticles);
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas(); // Initial canvas resize and particle initialization
+            animateParticles(); // Start particle animation
+
+            // --- Card Hover Effects (Existing, applied to both skill and project cards) ---
+            hoverCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    const offsetX = (e.clientX - centerX) / (rect.width / 2);
+                    const offsetY = (e.clientY - centerY) / (rect.height / 2);
+
+                    const rotateY = offsetX * 35;
+                    const rotateX = -offsetY * 35;
+
+                    // Adjust scale based on card type (skill vs project)
+                    const scaleFactor = card.classList.contains('skill') ? 1.35 : 1.08;
+
+                    card.style.transform = `perspective(1000px) scale(${scaleFactor}) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                    card.style.boxShadow = `
+                        0 0 45px var(--variable-color),
+                        0 0 90px var(--keyword-color),
+                        0 0 180px var(--string-color),
+                        0 0 350px var(--highlight-color),
+                        ${offsetX * 25}px ${offsetY * 25}px 60px rgba(0, 255, 255, 0.7)
+                    `;
+                    card.style.zIndex = '999'; // Bring to front
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transition = 'transform 0.1s ease-out, box-shadow 0.1s ease-out';
+                    // Reset transform to identity for both cases (it will be overridden by scroll effects)
+                    // The scale(1) here is mainly to counteract the hover scale,
+                    // the full on-scroll transform will be applied by applyScrollEffect.
+                    card.style.transform = 'perspective(1000px) scale(1)';
+                    card.style.boxShadow = '0 0 10px var(--variable-color)';
+                    card.style.zIndex = '1'; // Reset z-index
+
+                    setTimeout(() => {
+                        // Re-enable the smoother transition after a brief moment to allow immediate reset
+                        card.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out, box-shadow 0.15s ease-out';
+                    }, 100);
+                });
+            });
+
+            // --- Unified Scroll Transitions (Cubic Easing) ---
+            const applyScrollEffect = () => {
+                const viewportHeight = window.innerHeight;
+                const scrollY = window.scrollY;
+                const navHeight = nav.offsetHeight;
+
+                scrollAnimatedElements.forEach(element => {
+                    const isProjectCard = element.classList.contains('project');
+
+                    const elementRect = element.getBoundingClientRect(); // Use getBoundingClientRect for more accurate viewport position
+                    const elementTopInDocument = elementRect.top + scrollY; // Absolute top position in the document
+
+                    // Calculate the center of the element relative to the viewport
+                    const elementCenterInViewport = elementRect.top + elementRect.height / 2; // Relative to viewport
+                    const viewportCenter = viewportHeight / 2;
+
+                    // Distance from the center of the viewport to the center of the element
+                    let distance = elementCenterInViewport - viewportCenter;
+
+                    // Normalize distance to a -1 to 1 range
+                    const activationZone = isProjectCard ? (viewportHeight * 0.7) : (viewportHeight * 0.9); // Wider zone for sections
+                    let normalizedDistance = Math.max(-1, Math.min(1, distance / (activationZone / 2))); // Divide activationZone by 2 for normalized range
+
+                    // Apply cubic easing: x^3 for the effect, preserving the sign
+                    let easedDistanceForRotation = Math.sign(normalizedDistance) * Math.pow(Math.abs(normalizedDistance), 3);
+                    let easedDistanceForOther = Math.pow(Math.abs(normalizedDistance), 3);
+
+                    let rotateX, translateZ, scale, opacity;
+
+                    if (isProjectCard) {
+                        // Project card specific transforms (less dramatic)
+                        rotateX = easedDistanceForRotation * 15;
+                        translateZ = easedDistanceForOther * 70;
+                        scale = 1 - easedDistanceForOther * 0.05;
+                        opacity = 1 - easedDistanceForOther; // Full fade from 1 to 0
+                    } else {
+                        // Section/Header specific transforms (more dramatic)
+                        rotateX = easedDistanceForRotation * 60;
+                        translateZ = easedDistanceForOther * 600;
+                        scale = 1 - easedDistanceForOther * 0.3;
+                        opacity = 1 - easedDistanceForOther * 0.9;
+                    }
+
+                    // Ensure elements are fully hidden when far out of view
+                    // This is important for performance and visual consistency
+                    if (elementRect.bottom < 0 || elementRect.top > viewportHeight) {
+                        opacity = 0;
+                        // Reset transforms to default for off-screen elements to prevent weird jumps when scrolling back
+                        if (isProjectCard) {
+                            element.style.transform = `perspective(1000px) rotateX(0deg) translateZ(0px) scale(1)`;
+                        } else {
+                            element.style.transform = `perspective(1000px) rotateX(90deg) translateZ(800px) scale(0.7)`; // Reset to their initial hidden state for sections
+                        }
+                    }
+
+                    element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) translateZ(${translateZ}px) scale(${scale})`;
+                    element.style.opacity = opacity;
+                });
+            };
+
+
+            // Initial application of effects and on scroll
+            window.addEventListener('scroll', applyScrollEffect);
+            applyScrollEffect(); // Apply on page load for all elements
+
+            // --- Active Navigation Link Highlighting ---
+            const activateNavLink = () => {
+                let currentSectionId = 'home'; // Default to home
+                const viewportCenter = window.scrollY + window.innerHeight / 2;
+
+                // Only consider main sections for nav link highlighting
+                sectionsForNav.forEach(section => {
+                    const sectionCenter = section.offsetTop + section.offsetHeight / 2;
+                    // Check if the section's center is closest to the viewport's center
+                    if (Math.abs(sectionCenter - viewportCenter) < Math.abs((document.querySelector('#' + currentSectionId).offsetTop + document.querySelector('#' + currentSectionId).offsetHeight / 2) - viewportCenter)) {
+                        currentSectionId = section.id;
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    // Special handling for the 'Projects' nav link
+                    if (link.getAttribute('href') === '#projects') {
+                        // If any project card or the projects-title-section is in view, activate 'Projects' link
+                        const projectsTitleSection = document.getElementById('projects-title-section');
+                        const projectsWrapper = document.querySelector('.projects-individual-cards-wrapper');
+                        const projectsRect = projectsTitleSection.getBoundingClientRect();
+                        const projectsWrapperRect = projectsWrapper.getBoundingClientRect();
+
+                        // Check if the projects title section or any part of the projects wrapper is visible
+                        if ((projectsRect.top < viewportCenter && projectsRect.bottom > 0) ||
+                            (projectsWrapperRect.top < viewportCenter && projectsWrapperRect.bottom > 0)) {
+                            link.classList.add('active');
+                        }
+                    } else if (link.getAttribute('href').substring(1) === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            // Listen for scroll end to update active link more reliably after user stops scrolling
+            let scrollTimeout;
+            window.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(activateNavLink, 100); // Debounce for 100ms
+            });
+            activateNavLink(); // Call on load to set initial active link
+
+            // Smooth scroll for navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    let targetElement;
+
+                    // Adjust target element based on link
+                    if (targetId === '#projects') {
+                        targetElement = document.getElementById('projects-title-section');
+                    } else {
+                        targetElement = document.querySelector(targetId);
+                    }
+
+                    if (targetElement) {
+                        // Calculate scroll position, adjusting for fixed nav
+                        const offsetTop = targetElement.offsetTop - nav.offsetHeight;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
